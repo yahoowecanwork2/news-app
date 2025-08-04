@@ -6,6 +6,8 @@ import '../components-css/NewsApp.css'
 
 function NewsApp() {
     const [headline, setHeadline] = useState("Breaking News");
+    const [articles, setArticles] = useState([]);
+
     const [search, setSearch] = useState("india");
     const apiKey = import.meta.env.VITE_NEWS_API_KEY;
     console.log("API KEY:", apiKey);
@@ -18,6 +20,7 @@ function NewsApp() {
                 if (data.articles && data.articles.length > 0) {
                     const randomIndex = Math.floor(Math.random() * data.articles.length);
                     setHeadline(data.articles[randomIndex].title);
+                    setArticles(data.articles);
                 }
             } catch (error) {
                 console.error("Error fetching headline:", error);
@@ -29,13 +32,25 @@ function NewsApp() {
         const interval = setInterval(fetchHeadline, 10000);
         // Cleanup interval on unmount
         return () => clearInterval(interval);
-    }, [apiKey]);
+    }, [url]);
     const getData = async () => {
-        const responce = await fetch(url);
-        let jsonData = await responce.json()
-        console.log(jsonData.articles);
-
-    }
+        try {
+            const responce = await fetch(url);
+            let jsonData = await responce.json()
+            console.log(jsonData.articles);
+            if (jsonData.artiles.length > 0) {
+                setHeadline(jsonData.articles[0].title)
+                setArticles(jsonData.articles);
+            } else {
+                setHeadline("no news found");
+                setArticles([]);
+            }
+        } catch (error) {
+            console.log("Error fetching massage", error);
+            setHeadline("Error fetching massage");
+            setArticles([]);
+        }
+    };
     const handleInput = (e) => {
         console.log(e.target.value);
         setSearch(e.target.value);
@@ -73,7 +88,8 @@ function NewsApp() {
 
 
             <div>
-                <Cards data={headline} />
+                <Cards data={articles} />
+
             </div>
         </div>
     );
