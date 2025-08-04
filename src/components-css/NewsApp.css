@@ -1,0 +1,12 @@
+.head {
+    display: block;
+    background-color: #d90000;
+    color: #fff;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 85%;
+    margin: 20px auto;
+}
