@@ -10,3 +10,36 @@
     width: 85%;
     margin: 20px auto;
 }
+
+.categorybtn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.categorybtn button {
+    background-color: #007bff;
+    /* Blue */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.categorybtn button:hover {
+    background-color: #0056b3;
+    /* Darker Blue on hover */
+    transform: translateY(-2px);
+}
+
+.categorybtn button:active {
+    background-color: #004080;
+    /* Even darker on click */
+    transform: translateY(0);
+}

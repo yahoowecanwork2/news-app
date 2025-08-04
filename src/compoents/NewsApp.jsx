@@ -6,18 +6,18 @@ import '../components-css/NewsApp.css'
 
 function NewsApp() {
     const [headline, setHeadline] = useState("Breaking News");
+    const [search, setSearch] = useState("india");
     const apiKey = import.meta.env.VITE_NEWS_API_KEY;
     console.log("API KEY:", apiKey);
-
+    const url = (`https://newsapi.org/v2/everything?q=${search}&apiKey=${apiKey}`)
     useEffect(() => {
         const fetchHeadline = async () => {
             try {
-                const response = await fetch(
-                    `https://newsapi.org/v2/everything?q=india&pageSize=10&apiKey=${apiKey}`
-                );
+                const response = await fetch(url);
                 const data = await response.json();
                 if (data.articles && data.articles.length > 0) {
-                    setHeadline(data.articles[0].title);
+                    const randomIndex = Math.floor(Math.random() * data.articles.length);
+                    setHeadline(data.articles[randomIndex].title);
                 }
             } catch (error) {
                 console.error("Error fetching headline:", error);
@@ -30,6 +30,18 @@ function NewsApp() {
         // Cleanup interval on unmount
         return () => clearInterval(interval);
     }, [apiKey]);
+    const getData = async () => {
+        const responce = await fetch(url);
+        let jsonData = await responce.json()
+        console.log(jsonData.articles);
+
+    }
+    const handleInput = (e) => {
+        console.log(e.target.value);
+        setSearch(e.target.value);
+        setHeadline(jsonData.articles);
+
+    }
 
     return (
         <div>
@@ -42,12 +54,12 @@ function NewsApp() {
                     <li><Link to="/cards">Trending</Link></li>
                 </ul>
                 <div className='search-bar'>
-                    <input type="text" placeholder='Search News' />
-                    <button>Search</button>
+                    <input type="text" onChange={handleInput} placeholder='Search News' />
+                    <button onClick={getData}>Search</button>
                 </div>
             </nav>
             <div className='head'>
-                <p> Breaking News:{headline}</p>
+                <p> Breaking News ||{headline}</p>
             </div>
 
             <div className='categorybtn'>
@@ -61,7 +73,7 @@ function NewsApp() {
 
 
             <div>
-                <Cards />
+                <Cards data={headline} />
             </div>
         </div>
     );
