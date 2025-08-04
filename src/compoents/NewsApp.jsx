@@ -11,51 +11,33 @@ function NewsApp() {
     const [search, setSearch] = useState("india");
     const apiKey = import.meta.env.VITE_NEWS_API_KEY;
     console.log("API KEY:", apiKey);
-    const url = (`https://newsapi.org/v2/everything?q=${search}&apiKey=${apiKey}`)
-    useEffect(() => {
-        const fetchHeadline = async () => {
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.articles && data.articles.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * data.articles.length);
-                    setHeadline(data.articles[randomIndex].title);
-                    setArticles(data.articles);
-                }
-            } catch (error) {
-                console.error("Error fetching headline:", error);
-            }
-        };
 
-        fetchHeadline();
-        // Call every 10 seconds
-        const interval = setInterval(fetchHeadline, 10000);
-        // Cleanup interval on unmount
-        return () => clearInterval(interval);
-    }, [url]);
-    const getData = async () => {
+
+    const fetchHeadline = async () => {
         try {
-            const responce = await fetch(url);
-            let jsonData = await responce.json()
-            console.log(jsonData.articles);
-            if (jsonData.artiles.length > 0) {
-                setHeadline(jsonData.articles[0].title)
-                setArticles(jsonData.articles);
-            } else {
-                setHeadline("no news found");
-                setArticles([]);
+            const url = (`https://newsapi.org/v2/everything?q=${search}&apiKey=${apiKey}`)
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.articles && data.articles.length > 0) {
+                const randomIndex = Math.floor(Math.random() * data.articles.length);
+                setHeadline(data.articles[randomIndex].title);
+                setArticles(data.articles);
             }
         } catch (error) {
-            console.log("Error fetching massage", error);
+            console.error("Error fetching headline:", error);
             setHeadline("Error fetching massage");
             setArticles([]);
         }
     };
-    const handleInput = (e) => {
-        console.log(e.target.value);
-        setSearch(e.target.value);
-        setHeadline(jsonData.articles);
 
+    useEffect(() => {
+        fetchHeadline();
+        // const interval = setInterval(fetchHeadline, 10000);
+        // return () => clearInterval(interval);
+    }, [search])
+
+    const handleInput = (e) => {
+        setSearch(e.target.value);
     }
 
     return (
@@ -69,8 +51,10 @@ function NewsApp() {
                     <li><Link to="/cards">Trending</Link></li>
                 </ul>
                 <div className='search-bar'>
-                    <input type="text" onChange={handleInput} placeholder='Search News' />
-                    <button onClick={getData}>Search</button>
+                    <input type="text"
+                        value={search}
+                        onChange={handleInput} placeholder='Search News' />
+                    <button onClick={fetchHeadline}>Search</button>
                 </div>
             </nav>
             <div className='head'>
