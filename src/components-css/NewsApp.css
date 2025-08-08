@@ -1,45 +1,23 @@
 .head {
-    display: block;
-    background-color: #d90000;
-    color: #fff;
-    padding: 12px 20px;
     text-align: center;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
-    border-radius: 8px;
-    width: 85%;
-    margin: 20px auto;
+    margin: 1rem 0;
 }
 
 .categorybtn {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0;
+    flex-wrap: wrap;
+    margin: 1rem 0;
 }
 
 .categorybtn button {
-    background-color: #007bff;
-    /* Blue */
+    padding: 0.5rem 1rem;
+    background-color: #0074d9;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 14px;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.categorybtn button:hover {
-    background-color: #0056b3;
-    /* Darker Blue on hover */
-    transform: translateY(-2px);
-}
-
-.categorybtn button:active {
-    background-color: #004080;
-    /* Even darker on click */
-    transform: translateY(0);
+    border-radius: 5px;
 }
